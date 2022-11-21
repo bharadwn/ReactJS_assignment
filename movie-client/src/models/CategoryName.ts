@@ -1,0 +1,1 @@
+export type CategoryName = 'Coming Soon' | 'Movies in theaters' | 'Top rated Indian' | 'Top rated movies' | 'Favourites';

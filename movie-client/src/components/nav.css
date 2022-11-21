@@ -1,0 +1,17 @@
+.navigation-links a {
+  /* text-decoration: none; */
+  padding: 0.5em;
+}
+
+.navigation-links a.active {
+  text-decoration: underline;
+}
+
+.navigation-links Nav.link {
+  /* text-decoration: none; */
+  padding: 0.5em;
+}
+
+.navigation-links Nav.link.active {
+  text-decoration: underline;
+}
