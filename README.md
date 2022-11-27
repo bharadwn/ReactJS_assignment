@@ -65,4 +65,13 @@ npm i @fortawesome/fontawesome-free
 npm i utility-types
 
 --------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ spring-boot-jsontodb-master.zip_expanded/
+ 
+ contains the backend... it was designed to take json files as input (resources/json/*.json) and then provide us the database ... which is inturn used in reactJS through the API calls....
+ 
+ 
+ 
+
 
