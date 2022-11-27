@@ -10,6 +10,9 @@ The 2 videos are also provided in that assignment folder:
 reactJS_MovieApp_testing_small.mp4
 ReactJS_Movie_app_persistentDB.mp4
 
+NEW MOVIE APP UPDATED: 
+new_movie_app_testing_sm.mp4 
+
 I have created my own backend for this in SpringBoot and MySQL DB...
 spring-boot-jsontodb-master.zip_expa..
 
