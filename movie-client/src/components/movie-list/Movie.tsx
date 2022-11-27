@@ -1,6 +1,6 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import  { useState } from "react";
+import  { memo, useState } from "react";
 import { Button, Card, Toast, ToastContainer } from "react-bootstrap";
 import {  useNavigate } from "react-router-dom";
 import { CategoryType } from "../../models/CategoryType";
@@ -26,7 +26,7 @@ type MovieProps = {
 // };
 
 // const MovieItem = ({categoryType, movie, callBack}:MovieProps) => {
-const Movie = ({categoryType, movie}:MovieProps) => {    
+const Movie = memo(({categoryType, movie}:MovieProps) => {    
     const [ favMovie, setFavMovie] = useState<IMovie |null > ( null  );    
     const [ error, setError ] = useState<string> ( "" );
     const [ showErr, setShowErr ] = useState<boolean> ( false );
@@ -44,6 +44,7 @@ const Movie = ({categoryType, movie}:MovieProps) => {
                 const data = await addMovieToFavourites( movie );                
                 setFavMovie(data);
                 setShowAddSuccess(true);  
+                setShowErr(false); 
         } catch( error:any ) {
             error.data&&console.log("DAAATTTAAA?????"+error.data);
             error.response&&console.log("REESSPONSEE+++++"+error.response);
@@ -75,6 +76,7 @@ const Movie = ({categoryType, movie}:MovieProps) => {
                 setShowRemSuccess(true);
                 setMovie1(null);
                 window.location.reload();
+                setShowErr(false); 
                 // callBack(); //calling back to set the movie cnt
             } catch( error:any ) {
                 setError(((error.response && error.response.data) && error.response.data.message) || error.message);
@@ -142,17 +144,26 @@ const Movie = ({categoryType, movie}:MovieProps) => {
                 </Card.Text>
             </Card.Body>
         </Card>
+        <>
+            {/* {(showAddSuccess ||  showRemSuccess || showFavAlreadyAdded ||showErr)  &&   (                
+                <ToastChild showToast={showAddSuccess} bgProp="success" title="Success" message="Sucessfully added to Favourites" callBack1={updateShowAddSuccess.bind(this)} />                                 
+                <ToastChild showToast={showRemSuccess} bgProp="success" title="Removed" message="Sucessfully removed to Favourites" callBack1={updateShowRemSuccess.bind(this)} />
+                <ToastChild showToast={showFavAlreadyAdded} bgProp="warning" title="Already Added!" message="Movie was already in Favourites" callBack1={updateShowFavAlreadyAdded.bind(this)} />
+                <ToastChild showToast={showErr} bgProp="danger" title="Error!" message={error} callBack1={updateShowErr.bind(this)} />                   
+            )} */}
+        
          {
             (favMovie||movie) && (  
-                <>              
+                // <div className="toast-whole">              
                 <ToastChild showToast={showAddSuccess} bgProp="success" title="Success" message="Sucessfully added to Favourites" callBack1={updateShowAddSuccess.bind(this)} />
-                </>
+                // </div>
             )
         }{
             (showRemSuccess) && (            
                 <ToastChild showToast={showRemSuccess} bgProp="success" title="Removed" message="Sucessfully removed to Favourites" callBack1={updateShowRemSuccess.bind(this)} />
             )   
         }
+        
         {
             (showFavAlreadyAdded) && (                
                 <ToastChild showToast={showFavAlreadyAdded} bgProp="warning" title="Already Added!" message="Movie was already in Favourites" callBack1={updateShowFavAlreadyAdded.bind(this)} />
@@ -164,9 +175,10 @@ const Movie = ({categoryType, movie}:MovieProps) => {
             )
         }
         </>
+        </>
 
      );
-}
+});
  
 export default Movie;
 
@@ -179,23 +191,22 @@ type Props = {
 };
 
 export const ToastChild =( {showToast, bgProp, title, message, callBack1}:Props  ) => {
-    // const [position, setPosition] = useState('top-start');
-
+    // const [position, setPosition] = useState<ToastPosition>('top-start');
     return (
-        <ToastContainer className="p-3" position="top-end">
+        <ToastContainer className="p-3" position="top-end">  
             <Toast
                 bg={bgProp}
                 show={showToast}
                 autohide
                 delay={1500}
-                onClose={()=>{console.log("inside onclose");callBack1()}} >
+                onClose={()=>{console.log("inside onclose");callBack1();}} >
                 <Toast.Header closeButton={false}>
                 {title} 
                 </Toast.Header>
                 <Toast.Body>{message}</Toast.Body>
-            </Toast>
-            
-        </ToastContainer>
+            </Toast>            
+       </ToastContainer>
+        
     )
 };
 

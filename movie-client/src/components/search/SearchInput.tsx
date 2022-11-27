@@ -15,13 +15,18 @@ const SearchInput = () => {
         setSearchInput(e.target.value);
       };
     useEffect(() => {
+      console.log("set search input---------"+searchInput);
         const params = new URLSearchParams();
 
         if (searchInput) {
           params.append("search", searchInput);
-        } else {
-          params.delete("search");
+        } 
+        else {
+          params.append("search", searchInput);
         }
+        // else {
+        //   params.delete("search");
+        // }
         navigate({ search: params.toString() });
       }, [searchInput, navigate]);   
 

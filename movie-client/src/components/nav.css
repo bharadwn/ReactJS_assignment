@@ -1,5 +1,5 @@
 .navigation-links a {
-  /* text-decoration: none; */
+  text-decoration: none;
   padding: 0.5em;
 }
 
@@ -8,10 +8,19 @@
 }
 
 .navigation-links Nav.link {
-  /* text-decoration: none; */
+  text-decoration: none;
   padding: 0.5em;
 }
 
 .navigation-links Nav.link.active {
+  text-decoration: underline;
+}
+
+.navigation-links Link {
+  text-decoration: none;
+  padding: 0.5em;
+}
+
+.navigation-links Link.active {
   text-decoration: underline;
 }

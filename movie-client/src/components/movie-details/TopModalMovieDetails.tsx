@@ -15,56 +15,36 @@ type Props = {
     showModal: boolean
 };
 
-function TopModalMovieDetails({showModal}:Props) {
+const TopModalMovieDetails = memo(({showModal}:Props) =>{
 
     const [ status, setStatus ] = useState<LoadingStatus>( 'LOADING' );
     const [ movie, setMovie ] = useState<IMovie| ITopMovie | null>(null);
     const [ error, setError ] = useState<Error | null>( null );
-    // const [showM, setShowM] =useState<boolean>(showModal);
     const navigate = useNavigate();
-
-    // const updateShowM = useCallback(()=>()=> {showModal=false;},[]);
-    
     // const {categoryType,id} = useParams();
-    // const {categoryType,title,year} = useParams();
-    // const {categoryType,titleYear} = useParams();
     const {categoryType,title, year} = useParams();
-    // const titleYearStr = (titleYear+'').split('-');
-    // console.log("titleYearStr--"+titleYearStr);
-
 
     useEffect(
         () => {
             
             const fetchMovie = async () => {
                 try {
-                    // const data = await getMovieByID (`{categoryType}`,"1");
-                    // console.log(`${title}  and ${categoryType} and ${year}`);
-                    // console.log(`${titleYearStr}  and ${categoryType} `);
                     console.log(`${title}  and ${categoryType} and ${year}`);
-
-                    // console.log(`  ${categoryType} and ${id}`);
-                    // const data = await getMovieByTitleNYear (`${categoryType}`, `${titleYearStr}[0]`,`${titleYearStr}[1]`);
-                    // const data = await  getTopMovieByTitle(`${categoryType}`, `${title}`);
                     const data = await  getTopMovieByTitleNYear(`${categoryType}`, `${title}`,`${year}`);
-                    // const data = await getMovieByID (`${categoryType}`, `${id}`);
-                    // setShowM(true);//set the state to show
                     setMovie( data );
                     setStatus( 'LOADED' );
-                } catch( error:any ) {
+                } catch( error:any ) {                    
                     setError( error );
                     setStatus( 'ERROR_LOADING' );
                 }
             };
             fetchMovie();
         }
-        // ,
-        // []
+        ,[categoryType, title, year]
         // [categoryType, id]
     );
 
-    const convertToDisplayString=(inputStr: string[])=>{
-        // const theGenreStr = genres.map(genre=>(genre+","));
+    const convertToDisplayString=(inputStr: string[])=> {
         let outputStr="";
         let i=0;
         if (inputStr!== undefined) {
@@ -198,6 +178,6 @@ function TopModalMovieDetails({showModal}:Props) {
 
     return el;
     
-}
+});
  
-export default memo(TopModalMovieDetails);
+export default TopModalMovieDetails;

@@ -1,5 +1,5 @@
 
-import {  useEffect, useState } from 'react';
+import {  memo, useEffect, useState } from 'react';
 import {   Alert } from 'react-bootstrap';
 import LoadingIndicator from '../commons/LoadingIndicator';
 import IMovie from '../../models/IMovie';
@@ -16,7 +16,7 @@ type Props = {
 };
 
 
-const Movies= ({categoryName,categoryType}:Props) => {    
+const Movies= memo(({categoryName,categoryType}:Props) => {    
     const [ status, setStatus ] = useState<LoadingStatus>( 'LOADING' );
     const [ theMovies, setTheMovies ] = useState<IMovie[] >([]);
     const [ theMoviesCount, setTheMoviesCount] = useState<number>(0);
@@ -48,6 +48,7 @@ const Movies= ({categoryName,categoryType}:Props) => {
 
     useEffect( () => {
         const getAllMovies = async () => {
+            console.log("inside getAllMovies:::")
             try {
                 const data = await getMoviesByCategory(categoryType);  
 
@@ -66,7 +67,15 @@ const Movies= ({categoryName,categoryType}:Props) => {
                 setError(error);       
             }            
         };
-        getAllMovies();       
+        getAllMovies();   
+        
+        return () => {
+            console.log( 'cleanup function like component did mount' );
+
+                // if (this.props.location !== prevProps.location) {
+                //     console.log("Route Updated");
+                //   }
+        };
     }
     ,[categoryType, theMoviesCount, status]
     // ,[categoryType, theMovies, status]
@@ -84,9 +93,9 @@ const Movies= ({categoryName,categoryType}:Props) => {
         case 'LOADED':            
             console.log("Inside MoviesList"+categoryType);
             el = (                
-                    <>                    
-                    <SearchMovies items={theMovies} categoryType={categoryType} />  
-                    </>               
+                <>                    
+                <SearchMovies items={theMovies} categoryType={categoryType} />  
+                </>               
             );
             break;
         case 'NO_DATA':
@@ -101,6 +110,6 @@ const Movies= ({categoryName,categoryType}:Props) => {
             break;
     }
     return el;
-}
+});
  
 export default Movies;

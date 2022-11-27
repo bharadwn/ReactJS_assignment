@@ -53,13 +53,15 @@ const App = () => {
                                 <Route path="*" element={ <Favs /> } />                                
                             </Route>
                              
-                            <Route path="*" element={<NoPageFound/>}/>                            
+                            <Route path="*" element={<NoPageFound/>}/>    
+                            <Route path="/:categoryType/movie/:title/year/:year" element={ <TopModalMovieDetails showModal={true} /> } />                         
                         </Route>  
+                       
                         {/* <Route path="/:categoryType/movie/:title/year/:year" children={ <TopModalMovieDetails showModal={true} /> } />                       */}
                     </Routes>
-                    <Routes>                        
+                    {/* <Routes>                        
                         <Route path="/:categoryType/movie/:title/year/:year" element={ <TopModalMovieDetails showModal={true} /> } />                         
-                    </Routes>
+                    </Routes> */}
                 </Router>
             </ErrorBoundary>
         </>

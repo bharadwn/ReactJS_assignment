@@ -1,4 +1,4 @@
-import { Component, useEffect } from "react";
+import {  useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { CategoryType } from "../../models/CategoryType";
@@ -13,24 +13,41 @@ type Props = {
 };
 
 
-class SearchMovies extends Component<Props & InjectedComponentProps<IMovie>> {
-  // [searchParams] = useSearchParams();   
-  // key = useSearchParams().get("search");
-  // let key = useParams();
-  // key.get("search");  
+// class SearchMovies extends Component<Props & InjectedComponentProps<IMovie>> {
+  const SearchMovies: React.FC<Props & InjectedComponentProps<IMovie>> = ({items, categoryType, filterKey, filteredItems, filter }) => {
+    // const [ status, setStatus ] = useState<LoadingStatus>( 'LOADING' );
+    const [searchParams] = useSearchParams();   
+    const [ key, setKey ] = useState<string>(filterKey);
   
-  render() {
-      const { filterKey, filteredItems, filter } = this.props;      
+    useEffect(() => {
+        console.log('Location changed'+searchParams);
+        setKey(searchParams.get("search")+"");
+        console.log('Location changed'+key);
+        // filterKey=key;
+        filter(key);
+
+        return () => {
+          console.log( 'cleanupclean clean' );
+              // if (this.props.location !== prevProps.location) {
+              //     console.log("Route Updated");
+              //   }
+      };
+    }, [searchParams, filterKey, filter, key]);
+  
+  // render() {
+      // const { filterKey, filteredItems, filter } = props;      
       return (
           <>           
-            <Row>
-              <Row  className="search-input">
+            <Row className="movie-list">
+              {/* <Row  className="search-input">
                 <div >              
-                  <input type="search" placeholder="Search by movies"
+                  <input type="search" placeholder="Search movies"
                     value={filterKey}
                     onChange={( event ) => filter( event.target.value )}      />
                 </div>
-              </Row>
+              </Row> */}
+              {/* <Search/> */}
+              
 
               <Row xs={2} md={4} lg={6} className="movie-row">
                     {  
@@ -39,7 +56,7 @@ class SearchMovies extends Component<Props & InjectedComponentProps<IMovie>> {
                                 <Col key={aMovie.id+aMovie.title+aMovie.year} className="d-flex align-items-stretch my-3">
                                     <Movie
                                         movie ={aMovie}
-                                        categoryType={this.props.categoryType}
+                                        categoryType={categoryType}
                                     />                                    
                                 </Col>                                
                             )
@@ -49,19 +66,20 @@ class SearchMovies extends Component<Props & InjectedComponentProps<IMovie>> {
               </Row>
           </>
       );
-  }
+  // }
 };
 
 export default withFilter( SearchMovies, 'title' );
 
 export const Search = () => {
   const [searchParams] = useSearchParams();   
-  const key = searchParams.get("search");
+  const [ key, setKey ] = useState(searchParams.get("search"));
 
   useEffect(() => {
       console.log('Location changed');
-      searchParams.get("search");
-  }, [searchParams]);
+      setKey(searchParams.get("search"));
+      console.log('Location changed'+key);
+  }, [searchParams,key]);
   
   console.log(searchParams.get("search"));
       
